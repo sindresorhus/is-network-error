@@ -6,7 +6,7 @@ This can be useful when you want to do something specific when a network error h
 
 Unfortunately, Fetch network errors are [not standardized](https://github.com/whatwg/fetch/issues/526) and differ among implementations. This package handles the differences.
 
-For instance, [`p-retry`](https://github.com/sindresorhus/p-retry) uses this package to avoid retrying on network errors.
+For instance, [`p-retry`](https://github.com/sindresorhus/p-retry) uses this package to retry on network errors.
 
 ## Install
 
