@@ -3,6 +3,7 @@ const objectToString = Object.prototype.toString;
 const isError = value => objectToString.call(value) === '[object Error]';
 
 const errorMessages = new Set([
+	'network error', //chrome
 	'Failed to fetch', // Chrome
 	'NetworkError when attempting to fetch resource.', // Firefox
 	'The Internet connection appears to be offline.', // Safari 16
