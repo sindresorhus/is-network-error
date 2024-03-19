@@ -10,6 +10,7 @@ const errorMessages = new Set([
 	'Load failed', // Safari 17+
 	'Network request failed', // `cross-fetch`
 	'fetch failed', // Undici (Node.js)
+	'terminated', // Undici (Node.js)
 ]);
 
 export default function isNetworkError(error) {
