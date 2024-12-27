@@ -11,7 +11,13 @@ const errorMessages = new Set([
 	'Network request failed', // `cross-fetch`
 	'fetch failed', // Undici (Node.js)
 	'terminated', // Undici (Node.js)
+	'Importing a module script failed.', // Safari, dynamic import()
 ]);
+
+const errorMessagePrefixes = [
+	'Failed to fetch dynamically imported module:', // Chrome, dynamic import()
+	'Error resolving module specifier', // Firefox, dynamic import()
+];
 
 export default function isNetworkError(error) {
 	const isValid = error
@@ -29,5 +35,5 @@ export default function isNetworkError(error) {
 		return error.stack === undefined;
 	}
 
-	return errorMessages.has(error.message);
+	return errorMessages.has(error.message) || errorMessagePrefixes.some(prefix => error.message.startsWith(prefix));
 }
