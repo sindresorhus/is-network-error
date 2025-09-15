@@ -7,10 +7,10 @@ const errorMessages = new Set([
 	'Failed to fetch', // Chrome
 	'NetworkError when attempting to fetch resource.', // Firefox
 	'The Internet connection appears to be offline.', // Safari 16
-	'Load failed', // Safari 17+
 	'Network request failed', // `cross-fetch`
 	'fetch failed', // Undici (Node.js)
 	'terminated', // Undici (Node.js)
+	' A network error occurred.', // Bun (WebKit)
 ]);
 
 export default function isNetworkError(error) {
@@ -23,11 +23,18 @@ export default function isNetworkError(error) {
 		return false;
 	}
 
-	// We do an extra check for Safari 17+ as it has a very generic error message.
-	// Network errors in Safari have no stack.
-	if (error.message === 'Load failed') {
-		return error.stack === undefined;
+	const {message, stack} = error;
+
+	// Safari 17+ has generic message but no stack for network errors
+	if (message === 'Load failed' && stack === undefined) {
+		return true;
 	}
 
-	return errorMessages.has(error.message);
+	// Deno network errors start with specific text
+	if (message.startsWith('error sending request for url')) {
+		return true;
+	}
+
+	// Standard network error messages
+	return errorMessages.has(message);
 }
