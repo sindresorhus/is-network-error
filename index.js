@@ -26,8 +26,10 @@ export default function isNetworkError(error) {
 	const {message, stack} = error;
 
 	// Safari 17+ has generic message but no stack for network errors
-	if (message === 'Load failed' && stack === undefined) {
-		return true;
+	if (message === 'Load failed') {
+		return stack === undefined
+			// Sentry adds its own stack trace to the fetch error, so also check for that
+			|| '__sentry_captured__' in error;
 	}
 
 	// Deno network errors start with specific text
