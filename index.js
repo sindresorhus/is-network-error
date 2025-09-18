@@ -10,7 +10,8 @@ const errorMessages = new Set([
 	'Network request failed', // `cross-fetch`
 	'fetch failed', // Undici (Node.js)
 	'terminated', // Undici (Node.js)
-	' A network error occurred.', // Bun (WebKit)
+	' A network error occurred.', // Bun (WebKit),
+	'Network connection lost', // Cloudflare Workers (fetch)
 ]);
 
 export default function isNetworkError(error) {
